@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>StreamHub</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #08080c;
+      color: white;
+      min-height: 100vh;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      padding: 18px 6%;
+
+      background: rgba(12, 12, 18, 0.95);
+      border-bottom: 1px solid #252530;
+      backdrop-filter: blur(10px);
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 800;
+      color: #ff3030;
+    }
+
+    nav a {
+      color: #ddd;
+      text-decoration: none;
+      margin-left: 25px;
+      transition: 0.2s;
+    }
+
+    nav a:hover {
+      color: white;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      text-align: center;
+      padding: 90px 20px 60px;
+
+      background:
+        radial-gradient(
+          circle at top,
+          #342052 0%,
+          #151322 35%,
+          #08080c 70%
+        );
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 7vw, 75px);
+      font-weight: 800;
+      margin-bottom: 15px;
+    }
+
+    .hero h1 span {
+      color: #ff3030;
+    }
+
+    .hero p {
+      color: #aaa;
+      font-size: 18px;
+      margin-bottom: 35px;
+    }
+
+    /* SEARCH */
+
+    .search-box {
+      max-width: 650px;
+      margin: auto;
+      display: flex;
+    }
+
+    .search-box input {
+      flex: 1;
+      padding: 17px 20px;
+
+      border: 1px solid #33333e;
+      border-right: none;
+      outline: none;
+
+      background: #181820;
+      color: white;
+
+      border-radius: 12px 0 0 12px;
+      font-size: 16px;
+    }
+
+    .search-box button {
+      padding: 17px 25px;
+
+      border: none;
+      background: #e50914;
+      color: white;
+
+      border-radius: 0 12px 12px 0;
+
+      font-weight: bold;
+      cursor: pointer;
+
+      transition: 0.2s;
+    }
+
+    .search-box button:hover {
+      background: #ff202b;
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    .container {
+      max-width: 1250px;
+      margin: auto;
+      padding: 60px 20px;
+    }
+
+    .section-title {
+      font-size: 30px;
+      margin-bottom: 30px;
+    }
+
+    /* =========================
+       SERVICE CARDS
+    ========================= */
+
+    .services {
+      display: grid;
+
+      grid-template-columns:
+        repeat(auto-fit, minmax(230px, 1fr));
+
+      gap: 22px;
+    }
+
+    .service {
+      background: #14141c;
+
+      border: 1px solid #292933;
+      border-radius: 18px;
+
+      padding: 30px 20px;
+
+      text-align: center;
+
+      transition:
+        transform 0.25s,
+        box-shadow 0.25s,
+        border-color 0.25s;
+    }
+
+    .service:hover {
+      transform: translateY(-8px);
+
+      border-color: #555565;
+
+      box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    /* =========================
+       LOGOS
+    ========================= */
+
+    .service-logo {
+      width: 95px;
+      height: 95px;
+
+      object-fit: contain;
+
+      margin: 0 auto 20px;
+
+      padding: 12px;
+
+      border-radius: 20px;
+
+      background: #20202a;
+
+      display: block;
+
+      transition: transform 0.25s;
+    }
+
+    .service:hover .service-logo {
+      transform: scale(1.08);
+    }
+
+    .service h3 {
+      font-size: 21px;
+      margin-bottom: 10px;
+    }
+
+    .service p {
+      color: #999;
+      font-size: 14px;
+      line-height: 1.5;
+
+      min-height: 42px;
+
+      margin-bottom: 22px;
+    }
+
+    /* =========================
+       BUTTON
+    ========================= */
+
+    .watch-btn {
+      display: inline-block;
+
+      padding: 11px 24px;
+
+      background: white;
+      color: black;
+
+      text-decoration: none;
+
+      border-radius: 9px;
+
+      font-weight: bold;
+
+      transition: 0.2s;
+    }
+
+    .watch-btn:hover {
+      background: #e50914;
+      color: white;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      text-align: center;
+
+      padding: 35px 20px;
+
+      color: #777;
+
+      border-top: 1px solid #222;
+
+      margin-top: 30px;
+
+      line-height: 1.7;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 650px) {
+
+      header {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      nav a {
+        margin: 0 8px;
+      }
+
+      .hero {
+        padding-top: 60px;
+      }
+
+      .search-box {
+        width: 100%;
+      }
+
+      .search-box input {
+        min-width: 0;
+      }
+
+      .services {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       HEADER
+  ========================= -->
+
+  <header>
+
+    <div class="logo">
+      StreamHub
+    </div>
+
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+    </nav>
+
+  </header>
+
+
+  <!-- =========================
+       HERO
+  ========================= -->
+
+  <section class="hero">
+
+    <h1>
+      Watch <span>Anything</span>
+    </h1>
+
+    <p>
+      All your favorite streaming services in one place.
+    </p>
+
+    <div class="search-box">
+
+      <input
+        type="text"
+        id="search"
+        placeholder="Search for a streaming service..."
+        onkeyup="searchServices()"
+      >
+
+      <button onclick="searchServices()">
+        Search
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       SERVICES
+  ========================= -->
+
+  <main class="container" id="services">
+
+    <h2 class="section-title">
+      Streaming Services
+    </h2>
+
+    <div class="services" id="serviceList">
+
+
+      <!-- YOUTUBE -->
+
+      <div class="service">
+
+        <img
+          class="service-logo"
+          src="https://cdn.simpleicons.org/youtube/FF0000"
+          alt="YouTube logo"
+        >
+
+        <h3>YouTube</h3>
+
+        <p>
+          Videos, creators, music and live streams.
+        </p>
+
+        <a
+          class="watch-btn"
+          href="https://www.youtube.com/"
+          target="_blank"
+          rel="noopener"
+        >
+          Visit
+        </a>
+
+      </div>
+
+
+      <!-- NETFLIX -->
+
+      <div class="service">
+
+        <img
+          class="service-logo"
+          src="https://cdn.simpleicons.org/netflix/E50914"
+          alt="Netflix logo"
+        >
+
+        <h3>Netflix</h3>
+
+        <p>
+          Movies, TV shows, documentaries and originals.
+        </p>
+
+        <a
+          class="watch-btn"
+          href="https://www.netflix.com/"
+          target="_blank"
+          rel="noopener"
+        >
+          Visit
+        </a>
+
+      </div>
+
+
+      <!-- PRIME VIDEO -->
+
+      <div class="service">
+
+        <img
+          class="service-logo"
+          src="https://cdn.simpleicons.org/primevideo/00A8E1"
+          alt="Prime Video logo"
+        >
+
+        <h3>Prime Video</h3>
+
+        <p>
+          Movies, shows and Amazon Originals.
+        </p>
+
+        <a
+          class="watch-btn"
+          href="https://www.primevideo.com/"
+          target="_blank"
+          rel="noopener"
+        >
+          Visit
+        </a>
+
+      </div>
+
+
+      <!-- HULU -->
+
+      <div class="service">
+
+        <img
+          class="service-logo"
+          src="https://cdn.simpleicons.org/hulu/1CE783"
+          alt="Hulu logo"
+        >
+
+        <h3>Hulu</h3>
+
+        <p>
+          TV shows, movies and Hulu Originals.
+        </p>
+
+        <a
+          class="watch-btn"
+          href="https://www.hulu.com/"
+          target="_blank"
+          rel="noopener"
+        >
+          Visit
+        </a>
+
+      </div>
+
+
+      <!-- CRUNCHYROLL -->
+
+      <div class="service">
+
+        <img
+          class="service-logo"
+          src="https://cdn.simpleicons.org/crunchyroll/F47521"
+          alt="Crunchyroll logo"
+        >
+
+        <h3>Crunchyroll</h3>
+
+        <p>
+          Anime, manga and Asian entertainment.
+        </p>
+
+        <a
+          class="watch-btn"
+          href="https://www.crunchyroll.com/"
+          target="_blank"
+          rel="noopener"
+        >
+          Visit
+        </a>
+
+      </div>
+
+
+      <!-- DISNEY PLUS -->
+
+      <div class="service">
+
+        <img
+          class="service-logo"
+          src="https://cdn.simpleicons.org/disneyplus/113CCF"
+          alt="Disney Plus logo"
+        >
+
+        <h3>Disney+</h3>
+
+        <p>
+          Disney, Pixar, Marvel, Star Wars and more.
+        </p>
+
+        <a
+          class="watch-btn"
+          href="https://www.disneyplus.com/"
+          target="_blank"
+          rel="noopener"
+        >
+          Visit
+        </a>
+
+      </div>
+
+
+      <!-- MAX -->
+
+      <div class="service">
+
+        <img
+          class="service-logo"
+          src="https://cdn.simpleicons.org/hbomax/FFFFFF"
+          alt="Max logo"
+        >
+
+        <h3>Max</h3>
+
+        <p>
+          Movies, series, HBO shows and originals.
+        </p>
+
+        <a
+          class="watch-btn"
+          href="https://www.max.com/"
+          target="_blank"
+          rel="noopener"
+        >
+          Visit
+        </a>
+
+      </div>
+
+
+      <!-- PARAMOUNT PLUS -->
+
+      <div class="service">
+
+        <img
+          class="service-logo"
+          src="https://cdn.simpleicons.org/paramountplus/0064FF"
+          alt="Paramount Plus logo"
+        >
+
+        <h3>Paramount+</h3>
+
+        <p>
+          Movies, shows, sports and Paramount Originals.
+        </p>
+
+        <a
+          class="watch-btn"
+          href="https://www.paramountplus.com/"
+          target="_blank"
+          rel="noopener"
+        >
+          Visit
+        </a>
+
+      </div>
+
+
+    </div>
+
+  </main>
+
+
+  <!-- =========================
+       FOOTER
+  ========================= -->
+
+  <footer id="about">
+
+    <p>
+      © 2026 StreamHub
+    </p>
+
+    <p>
+      StreamHub is an independent directory and is not affiliated
+      with the streaming services listed above.
+    </p>
+
+  </footer>
+
+
+  <!-- =========================
+       SEARCH JAVASCRIPT
+  ========================= -->
+
+  <script>
+
+    function searchServices() {
+
+      const search =
+        document
+          .getElementById("search")
+          .value
+          .toLowerCase()
+          .trim();
+
+      const services =
+        document.querySelectorAll(".service");
+
+      services.forEach(service => {
+
+        const name =
+          service
+            .querySelector("h3")
+            .textContent
+            .toLowerCase();
+
+        if (name.includes(search)) {
+
+          service.style.display = "";
+
+        } else {
+
+          service.style.display = "none";
+
+        }
+
+      });
+
+    }
+
+  </script>
+
+</body>
+</html>
